@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "prefix": {
+      "type": "int",
+      "metadata": {
+        "description": "3 Digit Random Integer"
+      },
+      "minValue": 100,
+      "maxValue": 999
+    },
+    "servicePrincipalId": {
+      "metadata": {
+        "description": "The Service Principal Object ID"
+      },
+      "type": "securestring"
+    }
+  },
+  "variables": {
+    "registryName": "[concat('registry', parameters('prefix'))]",
+    "registryId": "[resourceId('Microsoft.ContainerRegistry/registries', variables('registryName'))]",
+    "ReaderRole": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]"
+  },
+  "resources": [
+    {
+      "comments": "## Container Registry ##",
+      "name": "[variables('registryName')]",
+      "type": "Microsoft.ContainerRegistry/registries",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "properties": {
+        "adminUserEnabled": false
+      }
+    },
+    {
+      "type": "Microsoft.ContainerRegistry/registries/providers/roleAssignments",
+      "apiVersion": "2017-05-01",
+      "name": "[concat(variables('registryName'), '/Microsoft.Authorization/', guid(concat(resourceGroup().id), variables('ReaderRole')))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ContainerRegistry/registries', variables('registryName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[variables('ReaderRole')]",
+        "principalId": "[parameters('servicePrincipalId')]",
+        "mode": "Incremental"
+      }
+    }
+  ],
+  "outputs": {
+    "containerRegistry": {
+      "type": "object",
+      "value": {
+        "id": "[variables('registryId')]",
+        "name": "[variables('registryName')]"
+      }
+    }
+  }
+}
