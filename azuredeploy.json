@@ -121,8 +121,7 @@
       "apiVersion": "2017-05-10",
       "resourceGroup": "[variables('commonGroup')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups/', variables('commonGroup'))]",
-        "TemplateVNet"
+        "[resourceId('Microsoft.Resources/resourceGroups/', variables('commonGroup'))]"
       ],
       "properties": {
         "mode": "Incremental",
