@@ -15,15 +15,14 @@ az container create \
                             "cosmosdb_key"="${ENV_COSMOSDB_KEY}" \
                             "entitlements_app_key"="${API_KEY}" \
                             "entitlements_service_api_key"="${API_KEY}" \
-                            "entitlements_service_endpoint"="https://${ENV_HOST}/entitlements/v1/" \
-                            "legal_service_endpoint"="https://${ENV_HOST}/api/legal/v1/" \
-                            "legal_service_region"="${ENV_REGION}" \
-                            "search_service_endpoint"="https://${ENV_HOST}/api/search/v2/query" \
+                            "entitlements_service_endpoint"=$entitlements_service_endpoint \
+                            "legal_service_endpoint"=$legal_service_endpoint \
+                            "legal_service_region"=$legal_service_region \
+                            "search_service_endpoint"=$search_service_endpoint \
                             "servicebus_namespace_name"="${ENV_SERVICEBUS_NAMESPACE}" \
                             "servicebus_connection_string"="${ENV_SERVICEBUS_CONNECTION}" \
                             "servicebus_topic_name"="${RECORD_SERVICE_BUS_TOPIC}" \
                             "storage_account"="${ENV_STORAGE}" \
                             "storage_account_key"="${ENV_STORAGE_KEY}" \
-                            "server_port"="8082" \
-                            "SERVICEBUS_NAMESPACE"="${ENV_SERVICEBUS_NAMESPACE}" \
-                            "servicebus_connection"="${ENV_SERVICEBUS_CONNECTION}"
+                            "server_port"=$server_port
+                            
