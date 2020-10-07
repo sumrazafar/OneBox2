@@ -6,6 +6,7 @@ az container create \
     --ip-address public \
     --ports 8082 \
     --restart-policy $RESTART_POLICY \
+    --output table \
     --environment-variables "AZURE_TENANT_ID"="${TENANT_ID}" \
                             "DEFAULT_PARTITION"="${DEFAULT_PARTITION}" \
                             "AZURE_CLIENT_ID"="${ENV_PRINCIPAL_ID}" \
